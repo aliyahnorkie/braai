@@ -42,7 +42,7 @@
 
   <p><strong>Bring along:</strong></p>
   <ul>
-    <li>Right angles</li>
+    <li>Exterior angles</li>
     <li>A good attitude 😄</li>
   </ul>
 
