@@ -36,7 +36,7 @@
   <ul>
     <li><strong>📍 Location:</strong> 57 Calendula Drive </li>
     <li><strong>📅 Date:</strong> 1 June 2025 </li>
-    <li><strong>🕓 Time:</strong> [Insert Time]</li>
+    <li><strong>🕓 Time:</strong> 18:00</li>
     <li><strong>🎶 Vibes:</strong> Bring your best playlist & appetite!</li>
   </ul>
 
