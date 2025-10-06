@@ -1,51 +1,128 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>Braai Invitation</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #fff3e0;
-      padding: 2rem;
-      max-width: 600px;
-      margin: auto;
-      border: 2px dashed #ff7043;
-      border-radius: 12px;
-    }
-    h1 {
-      color: #d84315;
-      text-align: center;
-    }
-    p, ul {
-      font-size: 1.1rem;
-      line-height: 1.6;
-    }
-    .footer {
-      margin-top: 2rem;
-      text-align: center;
-      font-weight: bold;
-    }
-  </style>
+    <title>Test Secret Message Decoder</title>
 </head>
 <body>
-  <h1>🔥 You're Invited to a Braai! 🔥</h1>
-  <p><strong>Hey Girlies!</strong></p>
-  <p>You're invited to a lekker braai at my place! Let's chill, catch up, and enjoy the good vibes.</p>
+    <h2>Secret Message Decoder Test</h2>
+    <button onclick="testDecoder()">Run Decoder</button>
+    <div id="output"></div>
 
-  <ul>
-    <li><strong>📍 Location:</strong> 57 Calendula Drive </li>
-    <li><strong>📅 Date:</strong> 2 July 2025 </li>
-    <li><strong>🕓 Time:</strong> 17:00 </li>
-    <li><strong>🎶 Vibes:</strong> Bring your best playlist & appetite!</li>
-  </ul>
+    <script>
+        // Paste the decodeSecretMessage function here
+        
+            async function decodeSecretMessage(https://docs.google.com/document/d/e/2PACX-1vQiVT_Jj04V35C-YRzvoqyEYYzdXHcRyMUZCVQRYCu6gQJX7hbNhJ5eFCMuoX47cAsDW2ZBYppUQITr/pub) {
+    try {
+        // Fetch the HTML content from the Google Docs URL
+        const response = await fetch(https://docs.google.com/document/d/e/2PACX-1vQiVT_Jj04V35C-YRzvoqyEYYzdXHcRyMUZCVQRYCu6gQJX7hbNhJ5eFCMuoX47cAsDW2ZBYppUQITr/pub);
+        const html = await response.text();
+        
+        // Parse the HTML
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+        
+        // Extract text content from the Google Doc
+        const textContent = doc.body.textContent || '';
+        const lines = textContent.split('\n').filter(line => line.trim());
+        
+        const data = [];
+        let maxX = 0;
+        let maxY = 0;
+        
+        // Parse the data lines (skip header lines and look for coordinate data)
+        for (const line of lines) {
+            // Look for lines that contain coordinate data (numbers and characters)
+            const parts = line.trim().split(/\s+/);
+            if (parts.length >= 3 && !isNaN(parts[0]) && !isNaN(parts[2])) {
+                const x = parseInt(parts[0]);
+                const char = parts[1];
+                const y = parseInt(parts[2]);
+                
+                data.push({x, y, char});
+                maxX = Math.max(maxX, x);
+                maxY = Math.max(maxY, y);
+            }
+        }
+        
+        // If no data found with coordinate parsing, try table parsing
+        if (data.length === 0) {
+            const tables = doc.querySelectorAll('table');
+            if (tables.length > 0) {
+                const table = tables[0];
+                const rows = table.querySelectorAll('tr');
+                
+                // Skip header row and parse data rows
+                for (let i = 1; i < rows.length; i++) {
+                    const cells = rows[i].querySelectorAll('td, th');
+                    if (cells.length >= 3) {
+                        const x = parseInt(cells[0].textContent.trim());
+                        const char = cells[1].textContent.trim();
+                        const y = parseInt(cells[2].textContent.trim());
+                        
+                        if (!isNaN(x) && !isNaN(y)) {
+                            data.push({x, y, char});
+                            maxX = Math.max(maxX, x);
+                            maxY = Math.max(maxY, y);
+                        }
+                    }
+                }
+            }
+        }
+        
+        // Create empty grid filled with spaces
+        const grid = [];
+        for (let y = 0; y <= maxY; y++) {
+            grid[y] = [];
+            for (let x = 0; x <= maxX; x++) {
+                grid[y][x] = ' ';
+            }
+        }
+        
+        // Place characters in grid
+        data.forEach(item => {
+            if (item.y >= 0 && item.y < grid.length && 
+                item.x >= 0 && item.x < grid[item.y].length) {
+                grid[item.y][item.x] = item.char;
+            }
+        });
+        
+        // Print the grid
+        console.log('Secret Message Grid:');
+        console.log('=' + '='.repeat(maxX) + '=');
+        for (let y = 0; y <= maxY; y++) {
+            let row = '|';
+            for (let x = 0; x <= maxX; x++) {
+                row += grid[y][x];
+            }
+            row += '|';
+            console.log(row);
+        }
+        console.log('=' + '='.repeat(maxX) + '=');
+        
+        return grid;
+        
+    } catch (error) {
+        console.error('Error decoding secret message:', error);
+        return null;
+    }
 
-  <p><strong>Bring along:</strong></p>
-  <ul>
-    <li>Exterior angles</li>
-    <li>A good attitude 😄</li>
-  </ul>
 
-  <p class="footer">Let me know if you're joining! Cheers, Aliyah!</p>
+
+        }
+
+        async function testDecoder() {
+            const output = document.getElementById('output');
+            output.innerHTML = 'Testing... (check browser console for results)';
+            
+            try {
+                const result = await decodeSecretMessage(
+                    'https://docs.google.com/document/d/e/2PACX-1vQiVT_Jj04V35C-YRzvoqyEYYzdXHcRyMUZCVQRYCu6gQJX7hbNhJ5eFCMuoX47cAsDW2ZBYppUQITr/pub'
+                );
+                output.innerHTML = 'Check the browser console for the secret message!';
+            } catch (error) {
+                output.innerHTML = 'Error: ' + error.message;
+            }
+        }
+    </script>
 </body>
 </html>
